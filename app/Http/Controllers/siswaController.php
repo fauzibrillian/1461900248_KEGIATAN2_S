@@ -9,27 +9,14 @@ class siswaController extends Controller
 {
     public function index()
     {
-        $data = DB::table('siswa')
+        $siswa = DB::table('siswa')
             ->join('kelas','siswa.id_kelas','=','kelas.id_kelas')
-            ->select('*')->where('id_kelas','=','03')
+            ->join('absen','siswa.nis','=','absen.nis') 
+            ->select('siswa.nis','siswa.nama','kelas.id_kelas','absen.absen')
             ->get();
-        // print_r($data);
-        // exit;
-        return view('1461900248.index', ['data' => $data]);
-    }
-
-    public function search(Request $request)
-    {
-        $nama = $request->nama;
-
-        $data = DB::table('siswa')
-            ->where('siswa.nama','like',"%".$nama."%")
-            ->join('kelas','siswa.id_kelas','=','kelas.id_kelas')
-            ->select('*')->where('id_kelas','=','03')
-            ->get();
-        // print_r($data);
-        // exit;
-        return view('1461900248.index', ['data' => $data]);
+            // print_r($siswa);
+            // exit;
+        return view('1461900248', ['siswa' => $siswa]);
     }
 
     /**
